@@ -1,0 +1,10 @@
+modules = ["python-3.11", "web"]
+run = "python3 -m http.server 3000"
+
+[[ports]]
+localPort = 3000
+externalPort = 80
+
+[deployment]
+deploymentTarget = "static"
+publicDir = "."

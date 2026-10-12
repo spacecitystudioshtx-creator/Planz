@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ff4f2e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Planz">
+  <meta name="description" content="Swipe through what's happening in NYC and build your weekend.">
+  <link rel="manifest" href="manifest.json">
+  <title>Planz</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Onboarding quiz -->
+    <section id="quiz" class="screen hidden" aria-label="Set up your taste"></section>
+
+    <!-- Main app -->
+    <div id="main" class="hidden">
+      <header class="topbar">
+        <div class="brand">Planz<span class="dot">.</span></div>
+        <button id="locBtn" class="loc-pill" aria-label="Change location and commute"></button>
+      </header>
+
+      <div id="filters" class="filters"></div>
+
+      <main id="view" class="view"></main>
+
+      <nav class="tabbar" aria-label="Sections">
+        <button data-tab="discover" class="active"><span class="ti">🏠</span>Discover</button>
+        <button data-tab="swipe"><span class="ti">🔥</span>Swipe</button>
+        <button data-tab="saved"><span class="ti">❤️</span>Saved<span id="savedCount" class="badge hidden"></span></button>
+        <button data-tab="profile"><span class="ti">👤</span>You</button>
+      </nav>
+    </div>
+
+    <!-- Bottom sheet (event details, filters, shared plans) -->
+    <div id="sheetBackdrop" class="sheet-backdrop hidden"></div>
+    <div id="sheet" class="sheet hidden" role="dialog" aria-modal="true"></div>
+    <div id="toast" class="toast hidden" role="status"></div>
+  </div>
+
+  <script src="events.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

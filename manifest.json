@@ -1,0 +1,11 @@
+{
+  "name": "Planz — NYC plans, swiped",
+  "short_name": "Planz",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fffaf7",
+  "theme_color": "#ff4f2e",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
