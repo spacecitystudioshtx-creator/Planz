@@ -4,7 +4,7 @@
 
 The idea came from a friend in New York. When he has a free weekend he checks Time Out, Instagram and a pile of other sites, and ends up overwhelmed by how much there is. Planz pulls it all into one feed tuned to his taste. You tell it when you're free and swipe. It works like Tinder for picking plans, with the browsing and filters of DoorDash.
 
-> **Status: clickable prototype.** It's a static web app with ~50 sample NYC events, so you can try the whole flow now. Real listings come next (see [Roadmap](#roadmap)).
+> **Status: live prototype.** The app reads a hand-curated feed (`data/events.json`) that a scheduled Claude task rebuilds twice a week. If the feed is missing, it falls back to ~50 sample events in `events.js`.
 
 ---
 
@@ -32,6 +32,28 @@ Other details:
 - **No restaurants.** Beli does that well, so Planz links to Beli for "dinner nearby?".
 - Light and dark mode. On a phone you can use *Add to Home Screen* so it opens like an app.
 
+## How curation works
+
+The point of Planz is a short list of **genuinely cool, specific things**, not hundreds of Eventbrite listings. Everything for this lives in [`curation/`](curation/).
+
+| File | What it is |
+| --- | --- |
+| [`sources.md`](curation/sources.md) | **Living list of trusted sources.** Curators, venues and accounts, each with tiers and vouches. |
+| [`inbox/`](curation/inbox/) | Drop friends' "last 10 cool things I did" lists here (copy `TEMPLATE.md`). Claude works out where each was posted and adds those places to `sources.md`. |
+| [`rubric.md`](curation/rubric.md) | How each event gets judged. It covers hard cuts for junk, a 0–100 score, a required "why go" line, and caps and balance rules. |
+| [`examples.md`](curation/examples.md) | Loved and skipped examples that teach it your crew's taste |
+| [`feedback/`](curation/feedback/) | Exports from the in-app **Editor review** screen (👍/👎). Each run learns from them. |
+| [`RUNBOOK.md`](curation/RUNBOOK.md) | The step-by-step the scheduled Claude task follows |
+| [`log.md`](curation/log.md) | What each run found, cut and shipped |
+
+**How the loop runs:**
+1. Friends' lists go in `inbox/`. That adds sources and vouches.
+2. The scheduled run collects events, scores them, writes `data/events.json` (up to 50 events, 10 Editor's Picks) and pushes.
+3. Replit redeploys with the new list.
+4. Editors 👍/👎 in the app (You → Editor review → Export) and drop the exported file in `feedback/`. The next run learns from it.
+
+Check a feed by hand with `node curation/validate.js`.
+
 ## Run it
 
 It's plain HTML, CSS and JS: no build step, no backend, no dependencies.
@@ -57,7 +79,8 @@ If Replit asks for a run command, use `python3 -m http.server 3000`.
 | `index.html` | App shell |
 | `styles.css` | All styling (light and dark) |
 | `app.js` | Quiz, filters, ranking, swipe sprint, mood read, saved list, sharing |
-| `events.js` | Categories and **sample** events. Swap this for real data later |
+| `events.js` | Categories, plus **sample** events used when there's no curated feed |
+| `data/events.json` | The curated feed (written by the curation run) |
 | `manifest.json`, `icon.svg` | Home-screen install |
 | `.replit` | Replit run and static deploy config |
 

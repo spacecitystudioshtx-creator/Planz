@@ -10,6 +10,7 @@
   let BY_ID = Object.fromEntries(EVENTS.map((e) => [e.id, e]));
   let LIVE = null; // metadata of the curated feed, when loaded
   // Saved events keep a snapshot, so they survive dropping out of the feed.
+  const genDay = () => { const g = new Date(LIVE.generated); g.setHours(0, 0, 0, 0); return g; };
   const ev = (id) => BY_ID[id] || (S.saved[id] && S.saved[id].ev) || null;
 
   const HOODS = {
@@ -331,7 +332,7 @@
     if (trips.length) h += section("🚆 Worth the trip", "a train ride away", tiles(trips));
     if (local.length) h += section(`All plans`, `${local.length}`, `<div class="list">${local.map((e) => rowHTML(e, { keys })).join("")}</div>`);
     h += LIVE
-      ? `<p class="note">Hand-picked ${esc(fmtDay(new Date(LIVE.generated)).toLowerCase())} from NYC's best curators and venues — ${EVENTS.length} things worth your time, not hundreds of listings. Tapping “Go” opens the official page.</p>`
+      ? `<p class="note">Hand-picked ${esc(fmtDay(genDay()).toLowerCase())} from NYC's best curators and venues — ${EVENTS.length} things worth your time, not hundreds of listings. Tapping “Go” opens the official page.</p>`
       : `<p class="note">Demo listings for the prototype. Tapping “Go” opens the official site for that venue or ticket seller.</p>`;
     return h;
   }
@@ -598,7 +599,7 @@
     const up = list.filter((e) => R[e.id] && R[e.id].v === 1).length, down = list.filter((e) => R[e.id] && R[e.id].v === -1).length;
     return `<div style="padding:14px 16px 4px">
         <h2 style="margin:0 0 4px">Editor review</h2>
-        <p class="meta">👍 = exactly the kind of thing Planz should show. 👎 = junk or not cool — add a few words why. ${LIVE ? `Feed curated ${esc(fmtDay(new Date(LIVE.generated)))}.` : "Showing demo data."}</p>
+        <p class="meta">👍 = exactly the kind of thing Planz should show. 👎 = junk or not cool — add a few words why. ${LIVE ? `Feed curated ${esc(fmtDay(genDay()).toLowerCase())}.` : "Showing demo data."}</p>
       </div>
       <div class="list">${list.map((e) => {
         const r = R[e.id] || {};
