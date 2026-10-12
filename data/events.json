@@ -1,0 +1,624 @@
+{
+ "generated": "2026-10-12T22:00:00Z",
+ "window": {
+  "start": "2026-10-12",
+  "end": "2026-10-25"
+ },
+ "events": [
+  {
+   "id": "ohny-weekend-2026",
+   "title": "Open House New York Weekend",
+   "tagline": "300+ normally-closed buildings open their doors, 10am–6pm",
+   "why": "One weekend a year you can walk into NYC's hidden buildings — mostly free.",
+   "pick": true,
+   "score": 92,
+   "cat": "arts",
+   "sub": "Talks",
+   "venue": "300+ sites citywide",
+   "hood": "Citywide",
+   "boro": "Manhattan",
+   "price": 0,
+   "priceText": "Mostly free · some $7 reservations",
+   "time": "10:00",
+   "dates": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18"
+   ],
+   "energy": 1,
+   "who": [
+    "solo",
+    "date",
+    "crew"
+   ],
+   "url": "https://ohny.org/activity/2026-ohny-weekend",
+   "source": "Open House New York",
+   "mentions": [
+    "Brick Underground",
+    "NYC For Free"
+   ]
+  },
+  {
+   "id": "sugar-brooklyn-steel-2026-10-16",
+   "title": "Sugar (Bob Mould) + J. Robbins",
+   "tagline": "'90s alt-rock greats on their Love You Even Still reunion tour",
+   "why": "Bob Mould's Sugar, reunited after 30 years — the NYC residency sold out.",
+   "pick": true,
+   "score": 86,
+   "cat": "music",
+   "sub": "Indie & Rock",
+   "venue": "Brooklyn Steel",
+   "hood": "East Williamsburg",
+   "boro": "Brooklyn",
+   "price": 2,
+   "priceText": "See site",
+   "time": "20:00",
+   "dates": [
+    "2026-10-16"
+   ],
+   "energy": 2,
+   "who": [
+    "solo",
+    "crew",
+    "date"
+   ],
+   "url": "https://www.jambase.com/venue/brooklyn-steel",
+   "source": "JamBase",
+   "mentions": [
+    "Brooklyn Vegan",
+    "Consequence"
+   ]
+  },
+  {
+   "id": "tompkins-dog-parade-2026",
+   "title": "Tompkins Square Halloween Dog Parade",
+   "tagline": "36th annual costume parade — start time TBC (late morning)",
+   "why": "Hundreds of dogs in absurd costumes: the best free people-watching of the year.",
+   "pick": true,
+   "score": 84,
+   "cat": "outdoors",
+   "sub": "Parks",
+   "venue": "Tompkins Square Park",
+   "hood": "East Village",
+   "boro": "Manhattan",
+   "price": 0,
+   "priceText": "Free",
+   "time": "11:00",
+   "dates": [
+    "2026-10-17"
+   ],
+   "energy": 2,
+   "who": [
+    "solo",
+    "date",
+    "crew",
+    "singles"
+   ],
+   "url": "https://www.nycforfree.co/events/tompkins-square-halloween-dog-parade-2026",
+   "source": "NYC For Free",
+   "mentions": [
+    "Haunted Attraction Network"
+   ]
+  },
+  {
+   "id": "nowadays-nonstop-2026-10-17",
+   "title": "Nowadays Nonstop",
+   "tagline": "Nicola Cruz, Peach, Main Phase, Honey Bun, EscaFlowne, Rose Kourts — check RA for set times",
+   "why": "Nowadays' marathon party with Nicola Cruz and Peach — go late, stay later.",
+   "pick": true,
+   "score": 80,
+   "cat": "music",
+   "sub": "Electronic",
+   "venue": "Nowadays",
+   "hood": "Ridgewood",
+   "boro": "Queens",
+   "price": 2,
+   "priceText": "See RA",
+   "time": "22:00",
+   "dates": [
+    "2026-10-17"
+   ],
+   "energy": 3,
+   "who": [
+    "crew",
+    "singles"
+   ],
+   "url": "https://ra.co/clubs/105873",
+   "source": "Resident Advisor",
+   "mentions": []
+  },
+  {
+   "id": "funk-tribu-knockdown-2026-10-17",
+   "title": "RUSH presents Funk Tribu: Day & Night",
+   "tagline": "Afternoon-into-night party, doors 3pm",
+   "why": "Day-into-night party in a massive converted factory in Maspeth.",
+   "score": 72,
+   "cat": "music",
+   "sub": "Electronic",
+   "venue": "Knockdown Center",
+   "hood": "Maspeth",
+   "boro": "Queens",
+   "price": 2,
+   "priceText": "See Dice",
+   "time": "15:00",
+   "dates": [
+    "2026-10-17"
+   ],
+   "energy": 3,
+   "who": [
+    "crew",
+    "singles"
+   ],
+   "url": "https://dice.fm/venue/knockdown-center-e776",
+   "source": "Dice",
+   "mentions": [
+    "Resident Advisor"
+   ],
+   "pick": false
+  },
+  {
+   "id": "nycwff-2026",
+   "title": "NYC Wine & Food Festival",
+   "tagline": "Grand Tastings Sat & Sun plus dinners and late-night parties — times vary",
+   "why": "Walk-around tastings from hundreds of chefs, now on the Pier 17 rooftop.",
+   "score": 66,
+   "cat": "food",
+   "sub": "Festivals",
+   "venue": "Seaport / Pier 17",
+   "hood": "Seaport",
+   "boro": "Manhattan",
+   "price": 4,
+   "priceText": "See site",
+   "time": "12:00",
+   "dates": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18"
+   ],
+   "energy": 2,
+   "who": [
+    "date",
+    "crew"
+   ],
+   "url": "https://nycwff.org",
+   "source": "NYCWFF",
+   "mentions": [
+    "Resident",
+    "Downtown Alliance"
+   ],
+   "pick": false
+  },
+  {
+   "id": "queens-night-market",
+   "title": "Queens Night Market",
+   "tagline": "Saturdays 4pm–midnight through Oct 31, behind the Hall of Science",
+   "why": "Final season of the $5–6 price cap — dozens of cuisines, cash in hand.",
+   "pick": true,
+   "score": 85,
+   "cat": "food",
+   "sub": "Markets",
+   "venue": "Flushing Meadows Corona Park",
+   "hood": "Corona",
+   "boro": "Queens",
+   "price": 1,
+   "priceText": "Free entry · $5–6 plates",
+   "time": "16:00",
+   "weekly": [
+    6
+   ],
+   "energy": 2,
+   "who": [
+    "crew",
+    "date",
+    "singles",
+    "solo"
+   ],
+   "url": "https://queensnightmarket.com",
+   "source": "Queens Night Market",
+   "mentions": [
+    "QNS",
+    "Potluck Asian America"
+   ]
+  },
+  {
+   "id": "smorgasburg-fall",
+   "title": "Smorgasburg — last weekends",
+   "tagline": "Sat in Williamsburg, Sun at Prospect Park's Breeze Hill, 11am–6pm",
+   "why": "Season ends in October — last chance for the waterfront food market.",
+   "score": 70,
+   "cat": "food",
+   "sub": "Markets",
+   "venue": "Marsha P. Johnson Park (Sat) · Prospect Park (Sun)",
+   "hood": "Williamsburg",
+   "boro": "Brooklyn",
+   "price": 1,
+   "priceText": "Free entry",
+   "time": "11:00",
+   "weekly": [
+    6,
+    0
+   ],
+   "energy": 2,
+   "who": [
+    "crew",
+    "date",
+    "solo"
+   ],
+   "url": "https://www.smorgasburg.com",
+   "source": "Smorgasburg",
+   "mentions": [
+    "Time Out",
+    "News 12"
+   ],
+   "pick": false
+  },
+  {
+   "id": "brooklyn-flea",
+   "title": "Brooklyn Flea",
+   "tagline": "Weekends 10am–5pm at 80 Pearl St",
+   "why": "Vintage, records and furniture under the Manhattan Bridge arch.",
+   "score": 63,
+   "cat": "shopping",
+   "sub": "Flea Markets",
+   "venue": "DUMBO Archway",
+   "hood": "DUMBO",
+   "boro": "Brooklyn",
+   "price": 0,
+   "priceText": "Free entry",
+   "time": "10:00",
+   "weekly": [
+    6,
+    0
+   ],
+   "energy": 1,
+   "who": [
+    "solo",
+    "date",
+    "crew"
+   ],
+   "url": "https://www.brooklynflea.com/Locations",
+   "source": "Brooklyn Flea",
+   "mentions": [],
+   "pick": false
+  },
+  {
+   "id": "vanguard-jazz-orchestra",
+   "title": "Vanguard Jazz Orchestra",
+   "tagline": "Monday sets at 8 & 10pm",
+   "why": "60 years of Monday-night big band in the same tiny basement.",
+   "score": 74,
+   "cat": "music",
+   "sub": "Jazz",
+   "venue": "Village Vanguard",
+   "hood": "West Village",
+   "boro": "Manhattan",
+   "price": 2,
+   "priceText": "See site",
+   "time": "20:00",
+   "weekly": [
+    1
+   ],
+   "energy": 1,
+   "who": [
+    "solo",
+    "date"
+   ],
+   "url": "https://villagevanguard.com",
+   "source": "Village Vanguard",
+   "mentions": [
+    "Setlist.fm",
+    "NPR"
+   ],
+   "pick": false
+  },
+  {
+   "id": "knicks-home-opener-2026",
+   "title": "Knicks vs. 76ers — Home Opener",
+   "tagline": "Championship ring ceremony and banner raising before tip at 7pm",
+   "why": "Title banner night plus LeBron's Sixers debut — get-in was near $2K.",
+   "score": 70,
+   "cat": "sports",
+   "sub": "Pro Games",
+   "venue": "Madison Square Garden",
+   "hood": "Midtown",
+   "boro": "Manhattan",
+   "price": 4,
+   "priceText": "Resale, ~$2K+",
+   "time": "19:00",
+   "dates": [
+    "2026-10-20"
+   ],
+   "energy": 3,
+   "who": [
+    "crew",
+    "date"
+   ],
+   "url": "https://www.nba.com/knicks",
+   "source": "NBA",
+   "mentions": [
+    "Roundtable",
+    "Reuters"
+   ],
+   "pick": false
+  },
+  {
+   "id": "avalanches-terminal-5-2026-10-22",
+   "title": "The Avalanches + Erick the Architect, Jessy Lanza",
+   "tagline": "Sample-collage legends on a rare tour stop",
+   "why": "The Avalanches barely tour — and Jessy Lanza opening is a bonus.",
+   "pick": true,
+   "score": 80,
+   "cat": "music",
+   "sub": "Electronic",
+   "venue": "Terminal 5",
+   "hood": "Hell's Kitchen",
+   "boro": "Manhattan",
+   "price": 3,
+   "priceText": "See site",
+   "time": "20:00",
+   "dates": [
+    "2026-10-22"
+   ],
+   "energy": 3,
+   "who": [
+    "crew",
+    "date",
+    "solo"
+   ],
+   "url": "https://www.jambase.com/venue/terminal-5",
+   "source": "JamBase",
+   "mentions": []
+  },
+  {
+   "id": "thundercat-kings-2026-10-23",
+   "title": "Thundercat — Distracted AF Tour",
+   "tagline": "Doors around 7pm",
+   "why": "Bass virtuoso Thundercat in Brooklyn's restored 1920s movie palace.",
+   "pick": true,
+   "score": 84,
+   "cat": "music",
+   "sub": "Hip-Hop & R&B",
+   "venue": "Kings Theatre",
+   "hood": "Flatbush",
+   "boro": "Brooklyn",
+   "price": 3,
+   "priceText": "See site",
+   "time": "19:00",
+   "dates": [
+    "2026-10-23"
+   ],
+   "energy": 2,
+   "who": [
+    "date",
+    "crew",
+    "solo"
+   ],
+   "url": "https://www.kingstheatre.com",
+   "source": "Kings Theatre",
+   "mentions": [
+    "Bandsintown",
+    "doNYC"
+   ]
+  },
+  {
+   "id": "xanadu-zombie-skate-2026-10-24",
+   "title": "Zombie Skate Night",
+   "tagline": "Thriller dancers and a costume contest, 7pm",
+   "why": "Halloween roller disco with Thriller dancers — costumes encouraged.",
+   "score": 70,
+   "cat": "night",
+   "sub": "Dance Parties",
+   "venue": "Xanadu Roller Arts",
+   "hood": "Bushwick",
+   "boro": "Brooklyn",
+   "price": 1,
+   "priceText": "See site",
+   "time": "19:00",
+   "dates": [
+    "2026-10-24"
+   ],
+   "energy": 3,
+   "who": [
+    "crew",
+    "singles",
+    "date"
+   ],
+   "url": "https://patch.com/new-york/brooklyn/brooklyn-halloween-events-2026-what-do-october",
+   "source": "Patch",
+   "mentions": [],
+   "pick": false
+  },
+  {
+   "id": "whitney-lichtenstein",
+   "title": "Roy Lichtenstein: Like New",
+   "tagline": "130 works, shaped with artist Alex Da Corte — just opened",
+   "why": "A brand-new 130-work Lichtenstein show, co-shaped by Alex Da Corte.",
+   "score": 76,
+   "cat": "arts",
+   "sub": "Museums",
+   "venue": "Whitney Museum",
+   "hood": "Meatpacking",
+   "boro": "Manhattan",
+   "price": 2,
+   "priceText": "See site",
+   "time": "11:00",
+   "weekly": [
+    5,
+    6,
+    0
+   ],
+   "energy": 1,
+   "who": [
+    "solo",
+    "date"
+   ],
+   "url": "https://whitney.org/events",
+   "source": "Whitney",
+   "mentions": [
+    "Artnet"
+   ],
+   "pick": false
+  },
+  {
+   "id": "moma-brancusi-opening",
+   "title": "Brâncuși: The Artist and His Studio",
+   "tagline": "Opens Oct 25 — rarely-lent sculptures alongside MoMA's own",
+   "why": "Opening day of a rare, major Brâncuși loan show.",
+   "score": 72,
+   "cat": "arts",
+   "sub": "Museums",
+   "venue": "MoMA",
+   "hood": "Midtown",
+   "boro": "Manhattan",
+   "price": 2,
+   "priceText": "See site",
+   "time": "10:30",
+   "dates": [
+    "2026-10-25"
+   ],
+   "energy": 1,
+   "who": [
+    "solo",
+    "date"
+   ],
+   "url": "https://www.moma.org/calendar/exhibitions/",
+   "source": "MoMA",
+   "mentions": [
+    "Artnet"
+   ],
+   "pick": false
+  },
+  {
+   "id": "classic-harbor-foliage",
+   "title": "Hudson Fall Foliage Sail",
+   "tagline": "Schooner and yacht cruises up to the Palisades from Pier 62, Fri–Sun",
+   "why": "See peak fall color without leaving the city — on a vintage schooner.",
+   "score": 68,
+   "cat": "outdoors",
+   "sub": "On the Water",
+   "venue": "Chelsea Piers, Pier 62",
+   "hood": "Chelsea",
+   "boro": "Manhattan",
+   "price": 3,
+   "priceText": "~$90–120",
+   "time": "11:00",
+   "weekly": [
+    5,
+    6,
+    0
+   ],
+   "energy": 1,
+   "who": [
+    "date",
+    "crew"
+   ],
+   "url": "https://sail-nyc.com",
+   "source": "Classic Harbor Line",
+   "mentions": [
+    "Time Out"
+   ],
+   "pick": false
+  },
+  {
+   "id": "jack-o-lantern-blaze-2026",
+   "title": "The Great Jack O'Lantern Blaze",
+   "tagline": "Timed entry on select nights through Nov 8 — book a slot",
+   "why": "Thousands of hand-carved, lit pumpkins on a trail at an 18th-century manor.",
+   "pick": true,
+   "score": 86,
+   "cat": "trips",
+   "sub": "Big Events",
+   "venue": "Van Cortlandt Manor",
+   "hood": "Croton-on-Hudson, NY",
+   "boro": "Trip",
+   "travel": 75,
+   "transit": "Metro-North Hudson Line to Croton-Harmon + 15-min walk",
+   "price": 2,
+   "priceText": "From ~$24 + train",
+   "time": "19:00",
+   "dates": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-23",
+    "2026-10-24",
+    "2026-10-25"
+   ],
+   "energy": 2,
+   "who": [
+    "date",
+    "crew"
+   ],
+   "url": "https://hudsonvalley.org/events/blaze",
+   "source": "Historic Hudson Valley",
+   "mentions": [
+    "Time Out",
+    "Secret NYC",
+    "MTA Away"
+   ]
+  },
+  {
+   "id": "storm-king-fall",
+   "title": "Storm King at peak foliage",
+   "tagline": "Weekend shuttle from Beacon station runs through Nov 2",
+   "why": "Monumental sculpture in 500 acres of peak fall color.",
+   "pick": true,
+   "score": 82,
+   "cat": "trips",
+   "sub": "Day Trips",
+   "venue": "Storm King Art Center",
+   "hood": "New Windsor, NY",
+   "boro": "Trip",
+   "travel": 110,
+   "transit": "Metro-North to Beacon + weekend shuttle",
+   "price": 2,
+   "priceText": "$25–28 + train",
+   "time": "10:00",
+   "weekly": [
+    6,
+    0
+   ],
+   "energy": 1,
+   "who": [
+    "date",
+    "crew",
+    "solo"
+   ],
+   "url": "https://stormking.org/plan-your-visit",
+   "source": "Storm King",
+   "mentions": []
+  },
+  {
+   "id": "dia-beacon",
+   "title": "Dia Beacon",
+   "tagline": "Fri–Mon 10am–5pm, free tours Sat & Sun at 12 and 1:30",
+   "why": "Giant minimalist art in an old box factory, a short walk from the train.",
+   "score": 76,
+   "cat": "trips",
+   "sub": "Day Trips",
+   "venue": "Dia Beacon",
+   "hood": "Beacon, NY",
+   "boro": "Trip",
+   "travel": 90,
+   "transit": "Metro-North Hudson Line to Beacon",
+   "price": 2,
+   "priceText": "$20–25 + train",
+   "time": "10:00",
+   "weekly": [
+    5,
+    6,
+    0,
+    1
+   ],
+   "energy": 1,
+   "who": [
+    "solo",
+    "date"
+   ],
+   "url": "https://www.diaart.org/visit/visit-our-locations-sites/dia-beacon-beacon-united-states/page/1",
+   "source": "Dia Art Foundation",
+   "mentions": [],
+   "pick": false
+  }
+ ]
+}

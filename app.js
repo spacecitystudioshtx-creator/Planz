@@ -5,9 +5,12 @@
   "use strict";
 
   const CATS = window.PLANZ_CATEGORIES;
-  const EVENTS = window.PLANZ_EVENTS;
+  let EVENTS = window.PLANZ_EVENTS; // replaced by data/events.json when it loads
   const CAT = Object.fromEntries(CATS.map((c) => [c.id, c]));
-  const BY_ID = Object.fromEntries(EVENTS.map((e) => [e.id, e]));
+  let BY_ID = Object.fromEntries(EVENTS.map((e) => [e.id, e]));
+  let LIVE = null; // metadata of the curated feed, when loaded
+  // Saved events keep a snapshot, so they survive dropping out of the feed.
+  const ev = (id) => BY_ID[id] || (S.saved[id] && S.saved[id].ev) || null;
 
   const HOODS = {
     Manhattan: ["East Village", "West Village", "Lower East Side", "Chelsea", "Midtown", "Upper West Side", "Upper East Side", "Harlem", "Financial District", "Hell's Kitchen"],
@@ -109,6 +112,7 @@
   // All dates this event happens in the next 4 weeks.
   function occurrences(e) {
     if (e.planAhead) return [];
+    if (e.dates) return e.dates.map(fromKey).filter((d) => d >= today);
     if (isRecurring(e)) {
       const out = [];
       for (let i = 0; i < 28; i++) { const d = addDays(today, i); if (e.weekly.includes(d.getDay())) out.push(d); }
@@ -179,6 +183,8 @@
     if (p.artists && p.artists.split(",").some((a) => a.trim() && (e.title + e.tagline).toLowerCase().includes(a.trim().toLowerCase()))) s += 5;
     if (!isTrip(e)) s -= travel(e) / 60;
     if (S.passed[e.id]) s -= 1;
+    if (e.pick) s += 2;
+    if (typeof e.score === "number") s += (e.score - 60) / 15;
     if (extra) s += extra(e);
     return s + (hash(e.id) % 100) / 1000; // stable tiebreak
   }
@@ -196,7 +202,10 @@
   const isSaved = (id) => !!S.saved[id];
   const isFav = (id) => !!(S.saved[id] && S.saved[id].fav);
   function setSaved(id, on) {
-    if (on) S.saved[id] = S.saved[id] || { at: Date.now(), fav: false };
+    if (on) {
+      S.saved[id] = S.saved[id] || { at: Date.now(), fav: false };
+      if (BY_ID[id]) S.saved[id].ev = BY_ID[id];
+    }
     else delete S.saved[id];
     save(); updateBadge();
   }
@@ -217,6 +226,7 @@
   function artHTML(e, { showTags = true } = {}) {
     const tags = [];
     if (showTags) {
+      if (e.pick) tags.push(`<span class="tag pick">★ Editor's Pick</span>`);
       if (e.price === 0) tags.push(`<span class="tag free">Free</span>`);
       if (isTrip(e)) tags.push(`<span class="tag trip">Worth the trip</span>`);
       if (isRecurring(e)) tags.push(`<span class="tag rec">↻ ${esc(recurText(e))}</span>`);
@@ -235,6 +245,7 @@
         <h3>${esc(e.title)}</h3>
         <div class="meta">${esc(whenText(e, keys))}</div>
         <div class="meta dim">${esc(e.hood)} · ${isTrip(e) ? travel(e) + " min" : "~" + travel(e) + " min"} · ${esc(e.priceText)}</div>
+        ${e.why ? `<div class="why-sm">${esc(e.why)}</div>` : ""}
       </div>
     </button>`;
   }
@@ -260,7 +271,7 @@
   // ---------- Filter bar ----------
   function renderFilters() {
     const el = $("#filters");
-    if (tab === "saved" || tab === "profile" || (tab === "swipe" && sprint && !sprint.done)) { el.classList.add("hidden"); return; }
+    if (tab === "saved" || tab === "profile" || tab === "review" || (tab === "swipe" && sprint && !sprint.done)) { el.classList.add("hidden"); return; }
     el.classList.remove("hidden");
     const dates = [];
     dates.push(`<button class="chip brand ${F.date === "weekend" ? "on" : ""}" data-date="weekend">This weekend</button>`);
@@ -319,7 +330,9 @@
     if (rec.length) h += section("↻ Every week", "save once, never miss it", tiles(rec));
     if (trips.length) h += section("🚆 Worth the trip", "a train ride away", tiles(trips));
     if (local.length) h += section(`All plans`, `${local.length}`, `<div class="list">${local.map((e) => rowHTML(e, { keys })).join("")}</div>`);
-    h += `<p class="note">Demo listings for the prototype. Tapping “Go” opens the official site for that venue or ticket seller.</p>`;
+    h += LIVE
+      ? `<p class="note">Hand-picked ${esc(fmtDay(new Date(LIVE.generated)).toLowerCase())} from NYC's best curators and venues — ${EVENTS.length} things worth your time, not hundreds of listings. Tapping “Go” opens the official page.</p>`
+      : `<p class="note">Demo listings for the prototype. Tapping “Go” opens the official site for that venue or ticket seller.</p>`;
     return h;
   }
 
@@ -390,6 +403,7 @@
         <div class="meta dim">${esc(CAT[e.cat].name)} · ${esc(e.sub)} · via ${esc(e.source)}</div>
         <h2>${esc(e.title)}</h2>
         <p class="tagline">${esc(e.tagline)} — <b>${esc(e.venue)}</b></p>
+        ${e.why ? `<p class="why">💡 ${esc(e.why)}</p>` : ""}
         <div class="facts">${facts.map((f) => `<span class="fact">${esc(f)}</span>`).join("")}</div>
       </div>
     </div>`;
@@ -525,9 +539,9 @@
 
   // ----- Saved -----
   function renderSaved() {
-    const ids = Object.keys(S.saved).filter((id) => BY_ID[id]);
+    const ids = Object.keys(S.saved).filter((id) => ev(id));
     if (!ids.length) return `<div class="empty"><div class="big">🤍</div>Nothing saved yet.<br>Swipe right or tap 🤍 on anything that looks fun.<br><br><button class="btn" data-go="swipe">Start swiping</button></div>`;
-    const all = ids.map((id) => BY_ID[id]);
+    const all = ids.map((id) => ev(id));
     const seg = [["ranked", "Ranked"], ["date", "By date"], ["fav", "⭐ Faves"], ["recurring", "↻ Weekly"]]
       .map(([k, n]) => `<button class="${savedMode === k ? "on" : ""}" data-saved-mode="${k}">${n}</button>`).join("");
     let list, opts = {};
@@ -566,12 +580,66 @@
         <button class="btn dark" data-action="retake">Retake the quiz</button>
         <button class="btn ghost" data-action="loc">Location & commute</button>
       </div>
+      <h2 style="margin:26px 0 6px">Editor review</h2>
+      <p class="meta">For the curators: thumbs up/down this week's list. Your feedback teaches the weekly curation what's cool and what's junk.</p>
+      <button class="btn ghost" data-go="review" style="margin-top:8px">Review this week's list (${EVENTS.length})</button>
       <h2 style="margin:26px 0 6px">Dinner before or after?</h2>
       <a class="beli" href="https://beliapp.com" target="_blank" rel="noopener"><span style="font-size:26px">🍽️</span><span><b>Find a spot on Beli</b><small>Planz does events — Beli is the standard for restaurants.</small></span></a>
       <h2 style="margin:26px 0 6px">Coming soon</h2>
       <p class="meta">🎧 Connect Spotify so concerts match bands you actually listen to<br>📸 Connect Instagram to pull in accounts you follow<br>👯 Swipe with friends and match on plans<br>🔔 Alerts when a favorite recurring event is this weekend</p>
       <div style="margin-top:26px"><button class="btn ghost" data-action="reset">Reset everything</button></div>
     </div>`;
+  }
+
+  // ----- Editor review -----
+  function renderReview() {
+    const R = (S.review = S.review || {});
+    const list = EVENTS.slice().sort((a, b) => (b.score || 0) - (a.score || 0));
+    const up = list.filter((e) => R[e.id] && R[e.id].v === 1).length, down = list.filter((e) => R[e.id] && R[e.id].v === -1).length;
+    return `<div style="padding:14px 16px 4px">
+        <h2 style="margin:0 0 4px">Editor review</h2>
+        <p class="meta">👍 = exactly the kind of thing Planz should show. 👎 = junk or not cool — add a few words why. ${LIVE ? `Feed curated ${esc(fmtDay(new Date(LIVE.generated)))}.` : "Showing demo data."}</p>
+      </div>
+      <div class="list">${list.map((e) => {
+        const r = R[e.id] || {};
+        return `<div class="row review">
+          <div class="info">
+            <h3>${e.pick ? "★ " : ""}${esc(e.title)}</h3>
+            <div class="meta">${esc(whenText(e, new Set(Array.from({ length: 28 }, (_, i) => keyOf(addDays(today, i))))))} · ${esc(e.venue)}</div>
+            ${e.why ? `<div class="why-sm">${esc(e.why)}</div>` : ""}
+            <input type="text" class="note-in" data-note="${e.id}" value="${esc(r.note || "")}" placeholder="Why? (optional)">
+          </div>
+          <div class="acts">
+            <button class="icon-btn ${r.v === 1 ? "on" : ""}" data-vote="${e.id}" data-v="1" aria-label="Good pick">👍</button>
+            <button class="icon-btn ${r.v === -1 ? "on" : ""}" data-vote="${e.id}" data-v="-1" aria-label="Junk">👎</button>
+          </div>
+        </div>`;
+      }).join("")}</div>
+      <div style="padding:18px 16px 0;display:flex;flex-direction:column;gap:10px">
+        <button class="btn block" data-action="export-review" ${up + down ? "" : "disabled"}>Export feedback · ${up} 👍 ${down} 👎</button>
+        <p class="meta dim">Send the exported file to whoever runs Planz (or drop it in <code>curation/feedback/</code>). The next curation run learns from it.</p>
+      </div>`;
+  }
+  function reviewMarkdown() {
+    const R = S.review || {};
+    const line = (e) => `- ${e.title} · ${e.venue} · source: ${e.source}${R[e.id].note ? " · note: " + R[e.id].note : ""}`;
+    const pick = (v) => EVENTS.filter((e) => R[e.id] && R[e.id].v === v).map(line).join("\n") || "- (none)";
+    return `# Editor feedback ${keyOf(new Date())}\nfeed: ${LIVE ? LIVE.generated : "demo"}\n\n## 👍 Good picks\n${pick(1)}\n\n## 👎 Junk / not cool\n${pick(-1)}\n`;
+  }
+  function exportReview() {
+    const md = reviewMarkdown();
+    const name = `feedback-${keyOf(new Date())}.md`;
+    const file = typeof File === "function" ? new File([md], name, { type: "text/markdown" }) : null;
+    if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file], title: "Planz feedback" }).catch(() => {});
+      return;
+    }
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([md], { type: "text/markdown" }));
+    a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    if (navigator.clipboard) navigator.clipboard.writeText(md).catch(() => {});
+    toast("Feedback downloaded (and copied)");
   }
 
   // ---------- Sheets ----------
@@ -587,7 +655,7 @@
   }
 
   function openEvent(id) {
-    const e = BY_ID[id];
+    const e = ev(id);
     if (!e) return;
     const occ = occurrences(e).slice(0, 4);
     const when = e.planAhead ? e.planAhead : occ.length ? occ.map((d) => fmtDay(d)).join(", ") + ` · ${fmtTime(e.time)}` : fmtTime(e.time);
@@ -599,13 +667,14 @@
         <div class="meta dim">${esc(CAT[e.cat].name)} · ${esc(e.sub)}</div>
         <h2>${esc(e.title)}</h2>
         <div class="meta">${esc(e.tagline)}</div>
+        ${e.why ? `<p class="why">💡 ${esc(e.why)}</p>` : ""}
         <div class="kv">
           <span>📅</span><span>${esc(when)}${isRecurring(e) ? `<br><small class="meta dim">↻ ${esc(recurText(e))} — save it once and it stays on your list</small>` : ""}</span>
           <span>📍</span><span>${esc(e.venue)}, ${esc(e.hood)}</span>
           <span>🚇</span><span>${esc(travelText(e))}${isTrip(e) ? "" : ` from ${esc(S.prefs.home)}`}</span>
           <span>💵</span><span>${esc(e.priceText)}</span>
           <span>👥</span><span>${e.who.map((w) => WHO.find((x) => x.id === w).name).join(" · ")}</span>
-          <span>🔗</span><span>${e.source === "Venue" ? "Listed on the venue's site" : "Listed on " + esc(e.source)}</span>
+          <span>🔗</span><span>${e.source === "Venue" ? "Listed on the venue's site" : "Listed on " + esc(e.source)}${e.mentions && e.mentions.length ? `<br><small class="meta dim">Featured in ${esc(e.mentions.join(", "))}</small>` : ""}</span>
         </div>
         <a class="btn block" href="${esc(e.url)}" target="_blank" rel="noopener">Go — open official site ↗</a>
         <div class="actions">
@@ -633,7 +702,7 @@
 
   function shareIds(ids, title) {
     const url = `${location.origin}${location.pathname}#plan=${ids.join(",")}`;
-    const text = `${title}: ` + ids.map((id) => BY_ID[id] && BY_ID[id].title).filter(Boolean).join(", ");
+    const text = `${title}: ` + ids.map((id) => ev(id) && ev(id).title).filter(Boolean).join(", ");
     if (navigator.share) {
       navigator.share({ title: "Planz", text, url }).catch(() => {});
     } else if (navigator.clipboard) {
@@ -642,7 +711,7 @@
   }
 
   function openShared(ids) {
-    const list = ids.map((id) => BY_ID[id]).filter(Boolean);
+    const list = ids.map((id) => ev(id)).filter(Boolean);
     if (!list.length) return;
     const anyKeys = new Set(Array.from({ length: 28 }, (_, i) => keyOf(addDays(today, i))));
     openSheet(`<div class="content">
@@ -748,7 +817,7 @@
   // ---------- Main render ----------
   function render() {
     const v = $("#view");
-    v.innerHTML = tab === "discover" ? renderDiscover() : tab === "swipe" ? renderSwipe() : tab === "saved" ? renderSaved() : renderProfile();
+    v.innerHTML = tab === "discover" ? renderDiscover() : tab === "swipe" ? renderSwipe() : tab === "saved" ? renderSaved() : tab === "review" ? renderReview() : renderProfile();
     if (tab === "swipe") bindDeck();
     document.querySelectorAll(".tabbar button").forEach((b) => b.classList.toggle("active", b.dataset.tab === tab));
     const p = S.prefs;
@@ -778,11 +847,17 @@
     if (d.sub) { F.sub = F.sub === d.sub ? null : d.sub; return rerender(); }
     if (d.savedMode) { savedMode = d.savedMode; return render(); }
     if (d.swipe) return onSwipe(d.swipe);
+    if (d.vote) {
+      const R = (S.review = S.review || {});
+      const v = Number(d.v);
+      R[d.vote] = { ...(R[d.vote] || {}), v: R[d.vote] && R[d.vote].v === v ? 0 : v };
+      save(); return render();
+    }
     if (d.save) {
       ev.stopPropagation();
       const on = !isSaved(d.save);
       setSaved(d.save, on);
-      if (on) learn(BY_ID[d.save], 0.5);
+      if (on) learn(ev(d.save), 0.5);
       save();
       toast(on ? "❤️ Saved to your plans" : "Removed from your plans");
       if (!$("#sheet").classList.contains("hidden") && $("#sheet").querySelector(".kv")) openEvent(d.save);
@@ -802,6 +877,7 @@
       case "close": return closeSheet();
       case "loc": return openLocation();
       case "retake": return startQuiz();
+      case "export-review": return exportReview();
       case "share-one": return shareIds([d.id], "Want to go?");
       case "share-saved": return shareIds(Object.keys(S.saved), "My plans");
       case "share-top": return shareIds([...sprint.stars, ...sprint.likes].map((e) => e.id), "My top picks");
@@ -827,15 +903,37 @@
       else if (ev.key === "ArrowUp") { ev.preventDefault(); onSwipe("up"); }
     }
   });
+  document.addEventListener("change", (ev) => {
+    const id = ev.target.dataset && ev.target.dataset.note;
+    if (!id) return;
+    S.review = S.review || {};
+    S.review[id] = { ...(S.review[id] || {}), note: ev.target.value.trim() };
+    save();
+  });
   $("#sheetBackdrop").addEventListener("click", closeSheet);
   $("#locBtn").addEventListener("click", openLocation);
 
   // ---------- Boot ----------
-  if (!S.onboarded) startQuiz();
-  else { $("#main").classList.remove("hidden"); rerender(); }
-  const m = location.hash.match(/^#plan=([\w,]+)/);
-  if (m) {
-    if (!S.onboarded) { S.onboarded = true; save(); $("#quiz").classList.add("hidden"); $("#main").classList.remove("hidden"); rerender(); }
-    openShared(m[1].split(","));
+  // Prefer the curated feed (data/events.json, written by the curation run);
+  // fall back to the bundled sample events if it's missing or empty.
+  function boot() {
+    if (!S.onboarded) startQuiz();
+    else { $("#main").classList.remove("hidden"); rerender(); }
+    const m = location.hash.match(/^#plan=([\w,-]+)/);
+    if (m) {
+      if (!S.onboarded) { S.onboarded = true; save(); $("#quiz").classList.add("hidden"); $("#main").classList.remove("hidden"); rerender(); }
+      openShared(m[1].split(","));
+    }
   }
+  fetch("data/events.json", { cache: "no-store" })
+    .then((r) => (r.ok ? r.json() : null))
+    .then((d) => {
+      if (d && Array.isArray(d.events) && d.events.length) {
+        EVENTS = d.events;
+        BY_ID = Object.fromEntries(EVENTS.map((e) => [e.id, e]));
+        LIVE = d;
+      }
+    })
+    .catch(() => {})
+    .finally(boot);
 })();
